@@ -14,6 +14,27 @@ class AutomaticUpdateDataCollector extends DataCollector
 {
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data = array();
+        $this->data = array('updates'=>array());
     }
+
+    /**
+     * Method returns amount of logged API calls
+     *
+     * @return number
+     */
+    public function getUpdateCount()
+    {
+        return count($this->data['updates']);
+    }
+
+    /**
+     * Method returns amount of logged API calls
+     *
+     * @return number
+     */
+    public function getUpdates()
+    {
+        return $this->data['updates'];
+    }
+
 }

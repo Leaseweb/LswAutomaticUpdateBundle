@@ -1,0 +1,14 @@
+parameters:
+    automatic_update.class: Lsw\AutomaticUpdateBundle\Software\AutomaticUpdate
+    automatic_update.data_collector.class: Lsw\AutomaticUpdateBundle\DataCollector\ApiCallDataCollector
+    automatic_update.data_collector.template: "LswAutomaticUpdateBundle:Collector:update"
+
+services:
+    automatic_update:
+        class: %automatic_update.class%
+        arguments: [%automatic_update.options%]
+    automatic_update.data_collector:
+        class: %automatic_update.data_collector.class%
+        arguments: [@automatic_update]
+        tags:
+            - { name: data_collector, template: %automatic_update.data_collector.template%, id:"update"}
