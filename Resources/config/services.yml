@@ -1,6 +1,6 @@
 parameters:
     automatic_update.class: Lsw\AutomaticUpdateBundle\Software\AutomaticUpdate
-    automatic_update.data_collector.class: Lsw\AutomaticUpdateBundle\DataCollector\ApiCallDataCollector
+    automatic_update.data_collector.class: Lsw\AutomaticUpdateBundle\DataCollector\SoftwareUpdateDataCollector
     automatic_update.data_collector.template: "LswAutomaticUpdateBundle:Collector:update"
 
 services:
