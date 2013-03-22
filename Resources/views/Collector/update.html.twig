@@ -1,0 +1,51 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        <img width="20" height="28" alt="API" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wLDw87Hzx98kMAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAABe0lEQVRIx+2VzyvDcRjHX58vJs3XrySTiUkODhbNkFp+zLabC8pFJDf/AFGIFOXqoJYfB/MzF0mSgxLiIGtGidMK7bI2v7bmIpSNlDTNc3yenlfv593z9AiXy8VPRqwQIrKBEj8ckT+yMBgMwYj28M8BBXJFP6vrVlo1cW9puYqxtXVW5m0sLC0xM9qBLkUCuYpR2wA6ZTigSKLYksvVYYDKajWKd6WgZ5/htmYamzqZcNfS1VJA/FcKpWQtFrWDWesaD/o6chQhOgJuTnZdKHPTiP0cKJFSYibLuYH9cpetuzKMeR81CIUKfU02nvMbnkIt9hsvlVKTilObE6//nr1tL0NGDVang3tAyGX0Ti/yhJ/b42XG5i54JDM8UErTYSnKJL9nisUgICWQ+Ggif9KB/cXDwfY+DrzvuuWwCiXS9SbSd7ppGTnCCxCjomF8BHNBAvbL765NTAbl9RmcbTp5FRC4Zm/Lg9ZSiPL/ln8VKHw+X5S9gCh8o89GYm0IsAZIJwAAAABJRU5ErkJggg==" />
+        <span class="sf-toolbar-status{% if collector.updateCount > 0 %} sf-toolbar-status-red{% endif %}">{{ collector.updateCount }}</span>
+    {% endset %}
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Software Updates</b>
+            <span>{{ collector.updateCount }}</span>
+        </div>
+    {% endset %}
+    {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
+{% endblock %}
+
+{% block menu %}
+<span class="label">
+    <span class="icon">
+      <span style="display:block; float: left; background-color: #3F3F3F; color: #F7F7F7; font-family: sans-serif; font-size: 15px; padding: 4px 4px 3px 4px; margin: 3px 15px;">Upd</span>
+    </span>
+    <strong>UPDATES</strong>
+    <span class="count">
+        <span>{{ collector.updateCount }}</span>
+    </span>
+</span>
+{% endblock %}
+
+{% block panel %}
+    <h2>Software Updates</h2>
+
+    {% if not collector.updateCount %}
+        <p>
+            <em>No updates.</em>
+        </p>
+    {% else %}
+        <ul class="alt">
+            {% for i, call in collector.updates %}
+                <li class="{{ i is odd ? 'odd' : 'even' }}">
+                    <div>
+                        <strong>Status</strong>: {# call.status #}<br />
+                    </div>
+                    <small>
+                        <strong>Status</strong>: {# call.status #}<br />
+                    </small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock %}

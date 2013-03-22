@@ -1,0 +1,3 @@
+parameters:
+    automatic_update.options:
+        composer_path: .
