@@ -37,4 +37,12 @@ class AutomaticUpdateDataCollector extends DataCollector
         return $this->data['updates'];
     }
 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'update';
+    }
 }
