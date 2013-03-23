@@ -9,6 +9,6 @@ services:
         arguments: [%automatic_update.options%]
     automatic_update.data_collector:
         class: %automatic_update.data_collector.class%
-        arguments: [@automatic_update]
+        arguments: [@kernel]
         tags:
             - { name: data_collector, template: %automatic_update.data_collector.template%, id:"update"}

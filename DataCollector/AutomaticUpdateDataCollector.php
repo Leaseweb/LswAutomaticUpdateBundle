@@ -2,8 +2,10 @@
 namespace Lsw\AutomaticUpdateBundle\DataCollector;
 
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Process\Process;
 
 /**
  * AutomaticUpdateDataCollector
@@ -12,9 +14,45 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AutomaticUpdateDataCollector extends DataCollector
 {
+
+    private $kernel;
+
+    /**
+     * Class constructor
+     *
+     * @param KernelInterface $kernel Kernel object
+     */
+    public function __construct(KernelInterface $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data = array('updates'=>array());
+
+        $rootDir = realpath($this->kernel->getRootDir() . '/../');
+        $installed = json_decode(file_get_contents($rootDir.'/composer.lock'));
+        $require = json_decode(file_get_contents($rootDir.'/composer.json'));
+        $require = (array)$require->require;
+        $packages = array();
+        foreach ($installed->packages as $package)
+        {
+            $name = $package->name;
+            $description = $package->description;
+            $version = $package->source->reference;
+            if (isset($require[$name])) {
+                $required = $require[$name];
+                $packages[] = compact('name','required','version','description');
+            }
+        }
+
+        $this->data = compact('packages');
+
+    }
+
+    private function collectComposerUpdates($rootDir)
+    {
+
     }
 
     /**
@@ -24,7 +62,7 @@ class AutomaticUpdateDataCollector extends DataCollector
      */
     public function getUpdateCount()
     {
-        return count($this->data['updates']);
+        return count($this->data['packages']);
     }
 
     /**
@@ -32,9 +70,9 @@ class AutomaticUpdateDataCollector extends DataCollector
      *
      * @return number
      */
-    public function getUpdates()
+    public function getPackages()
     {
-        return $this->data['updates'];
+        return $this->data['packages'];
     }
 
 
