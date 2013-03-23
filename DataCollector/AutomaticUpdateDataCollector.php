@@ -34,17 +34,17 @@ class AutomaticUpdateDataCollector extends DataCollector
         $installed = json_decode(file_get_contents($rootDir.'/composer.lock'));
         $require = json_decode(file_get_contents($rootDir.'/composer.json'));
         $require = (array)$require->require;
-        $packages = array();
-        foreach ($installed->packages as $package)
+        $bundles = array();
+        foreach ($installed->packages as $bundle)
         {
-            $name = $package->name;
-            $description = $package->description;
-            $version = $package->source->reference;
+            $name = $bundle->name;
+            $description = $bundle->description;
+            $version = $bundle->source->reference;
             $required = isset($require[$name])?$require[$name]:'-';
-            $packages[] = compact('name','required','version','description');
+            $bundles[] = compact('name','required','version','description');
         }
 
-        $this->data = compact('packages');
+        $this->data = compact('bundles');
 
     }
 
@@ -54,23 +54,23 @@ class AutomaticUpdateDataCollector extends DataCollector
     }
 
     /**
-     * Method returns amount of logged API calls
+     * Method returns amount of installed bundles
      *
      * @return number
      */
-    public function getUpdateCount()
+    public function getBundleCount()
     {
-        return count($this->data['packages']);
+        return count($this->data['bundles']);
     }
 
     /**
-     * Method returns amount of logged API calls
+     * Method returns the installed bundles
      *
      * @return number
      */
-    public function getPackages()
+    public function getBundles()
     {
-        return $this->data['packages'];
+        return $this->data['bundles'];
     }
 
 
