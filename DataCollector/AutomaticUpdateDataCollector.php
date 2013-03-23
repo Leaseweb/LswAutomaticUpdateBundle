@@ -40,10 +40,8 @@ class AutomaticUpdateDataCollector extends DataCollector
             $name = $package->name;
             $description = $package->description;
             $version = $package->source->reference;
-            if (isset($require[$name])) {
-                $required = $require[$name];
-                $packages[] = compact('name','required','version','description');
-            }
+            $required = isset($require[$name])?$require[$name]:'-';
+            $packages[] = compact('name','required','version','description');
         }
 
         $this->data = compact('packages');
