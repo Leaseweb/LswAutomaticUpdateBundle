@@ -1,0 +1,11 @@
+lsw_automatic_update.update.execute:
+    pattern:   /update/execute.{_format}
+    defaults:
+        _controller: LswAutomaticUpdateBundle:Update:execute
+        _format: html
+
+lsw_automatic_update.update.dry_run:
+    pattern:   /update/dry_run.{_format}
+    defaults:
+        _controller: LswAutomaticUpdateBundle:Update:dryRun
+        _format: html

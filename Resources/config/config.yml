@@ -1,3 +1,13 @@
 parameters:
     automatic_update.options:
-        composer_path: .
+        secret: secret
+        dry_run_commands:
+#            - "php composer.phar update --dry-run --ansi"
+            - "app/console doctrine:schema:update --dump-sql"
+            - "app/console doctrine:schema:update --dump-sql"
+#            - "app/console cache:clear"
+        execute_commands:
+#            - "php composer.phar update --dry-run --ansi"
+            - "app/console doctrine:schema:update --dump-sql"
+            - "app/console fail"
+#            - "app/console cache:clear"

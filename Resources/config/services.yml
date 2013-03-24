@@ -2,6 +2,7 @@ parameters:
     automatic_update.class: Lsw\AutomaticUpdateBundle\Software\AutomaticUpdate
     automatic_update.data_collector.class: Lsw\AutomaticUpdateBundle\DataCollector\AutomaticUpdateDataCollector
     automatic_update.data_collector.template: "LswAutomaticUpdateBundle:Collector:update"
+    lsw_ansi_extension.class: Lsw\AutomaticUpdateBundle\Extension\AnsiExtension
 
 services:
     automatic_update:
@@ -12,3 +13,7 @@ services:
         arguments: [@kernel]
         tags:
             - { name: data_collector, template: %automatic_update.data_collector.template%, id:"update"}
+    lsw_ansi_extension:
+        class: %lsw_ansi_extension.class%
+        tags:
+            - { name: twig.extension }

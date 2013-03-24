@@ -1,0 +1,11 @@
+<html>
+    <body style="background-color: #000; color:#aaa;">
+        <pre>
+<span style="background-color: #a00; font-weight: bold; color:#fff;"> Automatic update / EXECUTE / {{ "now"|date("Y-m-d H:i:s") }} </span>
+
+{% for i, command in commands -%}
+{{ username }}@{{ hostname }}:{{ path }}$ {{ command.input }}
+{{ command.output|ansi2html }}
+{% endfor %}</pre>
+    </body>
+</html>

@@ -3,12 +3,12 @@
 {% block toolbar %}
     {% set icon %}
         <img width="20" height="28" alt="API" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wLDw87Hzx98kMAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAABe0lEQVRIx+2VzyvDcRjHX58vJs3XrySTiUkODhbNkFp+zLabC8pFJDf/AFGIFOXqoJYfB/MzF0mSgxLiIGtGidMK7bI2v7bmIpSNlDTNc3yenlfv593z9AiXy8VPRqwQIrKBEj8ckT+yMBgMwYj28M8BBXJFP6vrVlo1cW9puYqxtXVW5m0sLC0xM9qBLkUCuYpR2wA6ZTigSKLYksvVYYDKajWKd6WgZ5/htmYamzqZcNfS1VJA/FcKpWQtFrWDWesaD/o6chQhOgJuTnZdKHPTiP0cKJFSYibLuYH9cpetuzKMeR81CIUKfU02nvMbnkIt9hsvlVKTilObE6//nr1tL0NGDVang3tAyGX0Ti/yhJ/b42XG5i54JDM8UErTYSnKJL9nisUgICWQ+Ggif9KB/cXDwfY+DrzvuuWwCiXS9SbSd7ppGTnCCxCjomF8BHNBAvbL765NTAbl9RmcbTp5FRC4Zm/Lg9ZSiPL/ln8VKHw+X5S9gCh8o89GYm0IsAZIJwAAAABJRU5ErkJggg==" />
-        <span class="sf-toolbar-status">{{ collector.bundleCount }}</span>
+        <span class="sf-toolbar-status">{{ collector.packageCount }}</span>
     {% endset %}
     {% set text %}
         <div class="sf-toolbar-info-piece">
-            <b>Bundles</b>
-            <span>{{ collector.bundleCount }}</span>
+            <b>Packages</b>
+            <span>{{ collector.packageCount }}</span>
         </div>
     {% endset %}
     {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
@@ -19,17 +19,17 @@
     <span class="icon">
       <span style="display:block; float: left; background-color: #3F3F3F; color: #F7F7F7; font-family: sans-serif; font-size: 15px; padding: 4px 4px 3px 4px; margin: 3px 15px;">Upd</span>
     </span>
-    <strong>BUNDLES</strong>
+    <strong>PACKAGES</strong>
 </span>
 {% endblock %}
 
 {% block panel %}
-    <h2>Bundles</h2>
+    <h2>Packages</h2>
 
     <table>
     <thead><tr><th>Name</th><th>Required</th><th>Version</th><th>Description</th></tr></thead>
     <tbody>
-    {% for i, packages in collector.bundles %}
+    {% for i, packages in collector.packages %}
         <tr>
             <td>{{ packages.name }}</td>
             <td>{{ packages.required }}</td>
@@ -39,7 +39,10 @@
     {% endfor %}
     </tr></tbody></table>
 
-    <iframe src="{{ asset('bundles/lswautomaticupdate/update.php') }}" style="width:100%;height: 400px;border: 0">
-    </iframe>
+    <form method="post" action="{{ url('lsw_automatic_update.update.dry_run') }}">
+        <label for="secret">Secret</label>
+        <input name="secret" type="password" style="width:400px;"/>
+        <input type="submit" value="Execute automatic update (dry-run)"/>
+    </form>
 
 {% endblock %}
