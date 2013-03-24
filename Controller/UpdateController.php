@@ -19,13 +19,19 @@ class UpdateController extends Controller
      */
     public function executeAction()
     {
+        $success = true;
         $path = realpath($this->get('kernel')->getRootDir() . '/../');
         $options = $this->container->getParameter('automatic_update.options');
         $commands = array();
         $secret = isset($_POST['secret'])?$_POST['secret']:false;
         if ($secret == $options['secret']) {
             foreach ($options['execute_commands'] as $command) {
-                $commands[] = $this->runCommand($path, $command);
+                $object = $this->runCommand($path, $command);
+                $commands[] = $object;
+                if ($object->result) {
+                    $success = false;
+                    break;
+                }
             }
         }
         $user = posix_getpwuid(posix_geteuid());
@@ -33,7 +39,7 @@ class UpdateController extends Controller
         $hostname = trim(file_get_contents('/etc/hostname'));
         return $this->render(
             'LswAutomaticUpdateBundle:Update:execute.html.twig',
-            compact('username', 'hostname', 'path', 'commands')
+            compact('username', 'hostname', 'path', 'commands', 'success')
         );
     }
 
@@ -44,13 +50,19 @@ class UpdateController extends Controller
      */
     public function dryRunAction()
     {
+        $success = true;
         $path = realpath($this->get('kernel')->getRootDir() . '/../');
         $options = $this->container->getParameter('automatic_update.options');
         $commands = array();
         $secret = isset($_POST['secret'])?$_POST['secret']:false;
         if ($secret == $options['secret']) {
             foreach ($options['dry_run_commands'] as $command) {
-                $commands[] = $this->runCommand($path, $command);
+                $object = $this->runCommand($path, $command);
+                $commands[] = $object;
+                if ($object->result) {
+                    $success = false;
+                    break;
+                }
             }
         }
         $user = posix_getpwuid(posix_geteuid());
@@ -58,7 +70,7 @@ class UpdateController extends Controller
         $hostname = trim(file_get_contents('/etc/hostname'));
         return $this->render(
             'LswAutomaticUpdateBundle:Update:dry_run.html.twig',
-            compact('username', 'hostname', 'path', 'commands', 'secret')
+            compact('username', 'hostname', 'path', 'commands', 'success', 'secret')
         );
     }
 
@@ -68,7 +80,8 @@ class UpdateController extends Controller
         $process->run();
         $stdout = $process->getOutput();
         $stderr = $process->getErrorOutput();
-        return (object) compact('command','stdout','stderr');
+        $result = $process->getExitCode();
+        return (object) compact('command','stdout','stderr','result');
     }
 
 }

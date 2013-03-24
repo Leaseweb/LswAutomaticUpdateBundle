@@ -1,7 +1,7 @@
 <html>
     <body style="background-color: #000; color:#aaa;">
         <pre>
-<span style="background-color: #a00; font-weight: bold; color:#fff;"> Automatic update / EXECUTE / {{ "now"|date("Y-m-d H:i:s") }} </span>
+<span style="background-color: {{ success?'#0a0':'#a00' }}; font-weight: bold; color:#fff;"> Automatic update / EXECUTE / {{ "now"|date("Y-m-d H:i:s") }} </span>
 
 {% for i, command in commands -%}
 {{ username }}@{{ hostname }}:{{ path }}$ {{ command.command }}

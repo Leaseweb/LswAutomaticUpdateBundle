@@ -2,10 +2,10 @@ parameters:
     automatic_update.options:
         secret: secret
         dry_run_commands:
-            - "svn status -u"
+#            - "svn status -u"
             - "php composer.phar update --dry-run --ansi"
             - "app/console doctrine:schema:update --dump-sql"
         execute_commands:
-            - "svn up"
+#            - "svn up"
             - "php composer.phar update --ansi"
             - "app/console doctrine:schema:update --force"

@@ -1,15 +1,17 @@
 <html>
     <body style="background-color: #000; color:#aaa;">
         <pre>
-<span style="background-color: #0a0; font-weight: bold; color:#fff;"> Automatic update / DRY-RUN / {{ "now"|date("Y-m-d H:i:s") }} </span>
+<span style="background-color: {{ success?'#0a0':'#a00' }}; font-weight: bold; color:#fff;"> Automatic update / DRY-RUN / {{ "now"|date("Y-m-d H:i:s") }} </span>
 
 {% for i, command in commands -%}
 {{ username }}@{{ hostname }}:{{ path }}$ {{ command.command }}
 {{ command.stdout|ansi2html}}{{ command.stderr|ansi2html}}
 {% endfor %}</pre>
+{% if success %}
     <form method="post" action="{{ url('lsw_automatic_update.update.execute') }}" style="font-size: 14px;">
         <input type="hidden" name="secret" value="{{ secret }}"/>
         <input type="submit" value="Step 2 of 2: Execute"/>
     </form>
+{% endif %}
     </body>
 </html>
