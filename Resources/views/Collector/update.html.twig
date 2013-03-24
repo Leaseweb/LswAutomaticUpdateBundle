@@ -24,14 +24,6 @@
 {% endblock %}
 
 {% block panel %}
-    <h2>Automatic update</h2>
-
-    <form method="post" action="{{ url('lsw_automatic_update.update.dry_run') }}" style="font-size: 12px;">
-        <label for="secret">Secret</label>
-        <input name="secret" type="password" style="width:400px;"/>
-        <input type="submit" value="Execute (dry-run)"/>
-    </form><br/>
-
     <h2>Installed Packages</h2>
 
     <table>
@@ -47,6 +39,12 @@
     {% endfor %}
     </tr></tbody></table>
 
+    <h2>Update</h2>
 
+    <form method="post" action="{{ url('lsw_automatic_update.update.dry_run') }}" style="font-size: 14px;">
+        <label for="secret">Secret</label>
+        <input name="secret" type="password" style="width:400px;"/><br/><br/>
+        <input type="submit" value="Step 1 of 2: Dry-Run"/>
+    </form>
 
 {% endblock %}
