@@ -24,9 +24,8 @@ class UpdateController extends Controller
         $commands = array();
         $secret = isset($_POST['secret'])?$_POST['secret']:false;
         if ($secret == $options['secret']) {
-            foreach ($options['execute_commands'] as $input) {
-                $output = $this->runCommand($path, $input);
-                $commands[] = (object) compact('input', 'output');
+            foreach ($options['execute_commands'] as $command) {
+                $commands[] = $this->runCommand($path, $command);
             }
         }
         $user = posix_getpwuid(posix_geteuid());
@@ -50,9 +49,8 @@ class UpdateController extends Controller
         $commands = array();
         $secret = isset($_POST['secret'])?$_POST['secret']:false;
         if ($secret == $options['secret']) {
-            foreach ($options['dry_run_commands'] as $input) {
-                $output = $this->runCommand($path, $input);
-                $commands[] = (object) compact('input', 'output');
+            foreach ($options['dry_run_commands'] as $command) {
+                $commands[] = $this->runCommand($path, $command);
             }
         }
         $user = posix_getpwuid(posix_geteuid());
@@ -68,7 +66,9 @@ class UpdateController extends Controller
     {
         $process = new Process('cd '.$path.';'.$command);
         $process->run();
-        return $process->getErrorOutput().$process->getOutput();
+        $stdout = $process->getOutput();
+        $stderr = $process->getErrorOutput();
+        return (object) compact('command','stdout','stderr');
     }
 
 }

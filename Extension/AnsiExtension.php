@@ -10,7 +10,7 @@ class AnsiExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('ansi2html', 'Lsw\AutomaticUpdateBundle\Extension\Ansi::ansi2html'),
+            new \Twig_SimpleFilter('ansi2html', 'Lsw\AutomaticUpdateBundle\Extension\Ansi::ansi2html', array('is_safe' => array('html'))),
         );
     }
 

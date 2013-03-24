@@ -4,8 +4,8 @@
 <span style="background-color: #0a0; font-weight: bold; color:#fff;"> Automatic update / DRY-RUN / {{ "now"|date("Y-m-d H:i:s") }} </span>
 
 {% for i, command in commands -%}
-{{ username }}@{{ hostname }}:{{ path }}$ {{ command.input }}
-{{ command.output }}
+{{ username }}@{{ hostname }}:{{ path }}$ {{ command.command }}
+{{ command.stdout|ansi2html}}{{ command.stderr|ansi2html}}
 {% endfor %}</pre>
     <form method="post" action="{{ url('lsw_automatic_update.update.execute') }}">
         <input type="hidden" name="secret" value="{{ secret }}"/>
