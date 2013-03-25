@@ -35,16 +35,22 @@ class AutomaticUpdateDataCollector extends DataCollector
         $require = json_decode(file_get_contents($rootDir.'/composer.json'));
         $require = (array)$require->require;
         $packages = array();
+        $packageCount=0;
+        $unstablePackageCount=0;
         foreach ($installed->packages as $package)
         {
             $name = $package->name;
             $description = $package->description;
             $version = $package->source->reference;
             $required = isset($require[$name])?$require[$name]:'-';
-            $packages[] = compact('name','required','version','description');
+            $unstable = strlen($version)==40;
+            $packages[] = compact('name','required','version','unstable','description');
+            // update counters
+            $unstablePackageCount+=$unstable;
+            $packageCount++;
         }
 
-        $this->data = compact('packages');
+        $this->data = compact('packages','packageCount','unstablePackageCount');
 
     }
 
@@ -60,7 +66,17 @@ class AutomaticUpdateDataCollector extends DataCollector
      */
     public function getPackageCount()
     {
-        return count($this->data['packages']);
+        return $this->data['packageCount'];
+    }
+
+    /**
+     * Method returns amount of installed unstable packages
+     *
+     * @return number
+     */
+    public function getUnstablePackageCount()
+    {
+        return $this->data['unstablePackageCount'];
     }
 
     /**

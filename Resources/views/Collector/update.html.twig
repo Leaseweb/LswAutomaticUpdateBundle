@@ -3,12 +3,16 @@
 {% block toolbar %}
     {% set icon %}
         <img width="22" height="28" alt="Update" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAcCAYAAABlL09dAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90DGRcCDsQiPeQAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAEXklEQVRIx+1Va0ybVRh+z/eVTqBFrss2oAslOi46aCmCMm6C0YkgjDFY6UAzkIFma7YoTpAsXBwbCsxEx8VNsmjMFmTs4jYuo4OBCKITHBEIRYVCOy5rKbQf9Ov3HX8oxEWQEX+Z7Pl7nvPkOW+e87wAj/C/BVqLkJf7vmBwcMCdZVj7DVyu5SJNTzvY24+drqocQgjR6xYuKT4hVCgUbxsMhlCWZbfSJpMlACAOh2PicDhTJIf8QSQSf/phWWnDSveJ1YRdhW6b5ufn0ubm5jwNBoOViaaRiabBSFFc/dyc8+ysPuZ2W9ulhF3xpWs6rq6scjFSRtMhuXzS+ylvl5MlJcNf1JzbkJC4B7Z5ecJjlpYwoVJBc0MjtN1qBb1eDwSBQOAqKK+tv/jO30ez7HhyapJfX1d3tbmpuQxjTPTf7VcNDA69djQv9+78ApVVUFDw9Csv7nRt7/g2Kiwy4kJeYb7By9sbGIYFjUbzVkpycuyKT4/e+XKN2McXBwU+S6fK9iWtNa7yj0+Ftn/X2R8fF4fF231wXHSM8tznNZYPXEqVyVJn7s8kI4RgYWGBo1ZPlBUVFLr+xWFXEpYfPNR649r1mESpdBoRBIyOjQlHx0aDloXfzc7eplZrPlhcNHEQQoAQgump6U29vT99olZryH+LYmF+vlI1rspzd3cHzLKgHFamLJ2RQjdhxdTkZABBEGBmGCBJAnh8Pui02ifU6glVe0fHjyvmOyfH2V/iv5lhWERR1O57Gg3HcaOjTVhIWL2nh8dmTsBzgTa7kxLhTk8Pvlx/CdnZ2YM0Zd+ig6MD+X1X99bV3FrxeKFtbbeLEEGQDE1bIIKA35S/CkaJ31v4NvxpwsbW9hTDMi/ZOzh0AQAwZjPWaDQVVjxe5JOeHldWE15kzDNBIcEOs1qtq8FoJBFCYKQoklqg3HaEhDotE2vr6o5IRGIsEYlx+v79X2GMybW+e7Oi5XxSwh7s5yvCEpEY+/mKcGZGBtt4szl3mRQaHiY8LJdj8XYf/EJEpP6wXC55iK6xvN7QMBYRFo7FPr44JioKd3Z3dQIAsZzRVsWtkeDnw3useTyYmZ7i/9zb92XV6QrfNYQppXJYGhu/a5FnbQ3pWVn3jx8vlv4joiWlHwWeOXvW/IzYD/v5inCAxF+XIk3Onxif2LLEwRjbv56Smn00Ozt6KbJXvrla3NDUxFZUV8es2BU7goOJ93Jzjgz9MnDy6/MXwEhRgDEGkiSw7eO2k4AA62f1TjRNk3wbG+MbBzI8k2Wy0bxjx5wcnRzFfX29Nz+rrDavVpvcJkVL0axWe7Dx2g3uiFIJOp0OWIb50wlBAI/HA6eNToyrQJBRVl5+Zl19XHuxTiYUCg+Mq8ZFszqdlU6nA8AYeHw+2NrZmZxdXEa6u7qy38zMvLzuDRId+6ptWlq62IJr4cW1sNiCAUiGYe6ZafNAZ0fHnaLCQvV/XmFJe/eSstRUzsOss0d4AH8Al6blV+kJPuQAAAAASUVORK5CYII=" />
-        <span class="sf-toolbar-status">{{ collector.packageCount }}</span>
+        <span class="sf-toolbar-status{% if collector.unstablePackageCount %} sf-toolbar-status-red{% endif %}">{{ collector.unstablePackageCount }}</span>
     {% endset %}
     {% set text %}
         <div class="sf-toolbar-info-piece">
             <b>Packages</b>
             <span>{{ collector.packageCount }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Unstable packages</b>
+            <span class="sf-toolbar-status sf-toolbar-status-{{ collector.unstablePackageCount > 0 ? 'red' : 'green' }}">{{ collector.unstablePackageCount }}</span>
         </div>
     {% endset %}
     {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
@@ -26,11 +30,11 @@
 {% block panel %}
     <h2>Packages</h2>
 
-    <table>
+    <table class="routing">
     <thead><tr><th>Name</th><th>Required</th><th>Version</th><th>Description</th></tr></thead>
     <tbody>
     {% for i, packages in collector.packages %}
-        <tr>
+        <tr class="{{ packages.unstable ? 'almost' }}">
             <td>{{ packages.name }}</td>
             <td>{{ packages.required }}</td>
             <td>{{ packages.version }}</td>
