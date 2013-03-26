@@ -67,7 +67,24 @@ Add the following lines to ```app/config/security.yml```:
         pattern: ^/update/
         security: false
 
+## Configuration
 
+In ```parameters.yml``` you can specify the following:
+
+
+``` yml
+parameters:
+    automatic_update.options:
+        secret: "SomeVerySecretPassword"
+        dry_run_commands:
+            - "svn status -u"
+            - "php composer.phar update --dry-run --ansi"
+            - "app/console doctrine:schema:update --dump-sql"
+        execute_commands:
+            - "svn up"
+            - "php composer.phar update --ansi"
+            - "app/console doctrine:schema:update --force"
+```
 
 ## License
 
