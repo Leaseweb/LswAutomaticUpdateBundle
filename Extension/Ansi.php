@@ -1,6 +1,9 @@
 <?php
 namespace Lsw\AutomaticUpdateBundle\Extension;
 
+/**
+ * @author: Tim van Dijen
+ **/
 class Ansi
 {
     public static function ansi2html($str) {
