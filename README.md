@@ -1,7 +1,7 @@
 LswAutomaticUpdateBundle
 ========================
 
-Symfony2 bundle that allows you to upgrade the application from the web interface
+Symfony2 bundle that enables automatic updates of the application from the Web Debug Toolbar.
 
 ## Installation
 
