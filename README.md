@@ -5,6 +5,8 @@ LswAutomaticUpdateBundle
 
 Symfony2 bundle that enables automatic updates of the application from the Web Debug Toolbar.
 
+![screenshot](http://www.leaseweblabs.com/wp-content/uploads/2013/03/update_step1.png)
+
 ## Installation
 
 Installation is broken down in 4 easy steps.
@@ -64,6 +66,7 @@ Add the following lines to ```app/config/security.yml```:
     automatic_update:
         pattern: ^/update/
         security: false
+
 
 
 ## License
