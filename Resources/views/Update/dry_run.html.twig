@@ -10,7 +10,7 @@
 {% if success %}
     <form method="post" action="{{ url('lsw_automatic_update.update.execute') }}" style="font-size: 14px;">
         <input type="hidden" name="secret" value="{{ secret }}"/>
-        <input type="submit" value="Step 2 of 2: Execute"/>
+        <input type="submit" value="Step 2 of 2: Execute" style="padding: 4px;"/>
     </form>
 {% endif %}
     </body>
