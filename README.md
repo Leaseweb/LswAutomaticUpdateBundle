@@ -41,7 +41,7 @@ public function registerBundles()
 
     if (in_array($this->getEnvironment(), array('dev', 'test'))) {
         ...
-        $bundles[] = new Lsw\AutomaticUpdateBundle\LswAutomaticUpdateBundle(),
+        $bundles[] = new Lsw\AutomaticUpdateBundle\LswAutomaticUpdateBundle();
     }
 
 }
