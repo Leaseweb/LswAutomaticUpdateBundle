@@ -20,7 +20,7 @@
     "require-dev": {
         "twig/twig": "*",
         "doctrine/doctrine-bundle": "*",
-        "symfony/yaml": "2.1.*",
+        "symfony/yaml": "2.1.*"
     },
     "autoload": {
         "psr-0": { "Lsw\\AutomaticUpdateBundle": "" }
