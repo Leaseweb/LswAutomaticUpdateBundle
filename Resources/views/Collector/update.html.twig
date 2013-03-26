@@ -3,7 +3,8 @@
 {% block toolbar %}
     {% set icon %}
         <img width="22" height="28" alt="Update" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAcCAYAAABlL09dAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB90DGRcCDsQiPeQAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAEXklEQVRIx+1Va0ybVRh+z/eVTqBFrss2oAslOi46aCmCMm6C0YkgjDFY6UAzkIFma7YoTpAsXBwbCsxEx8VNsmjMFmTs4jYuo4OBCKITHBEIRYVCOy5rKbQf9Ov3HX8oxEWQEX+Z7Pl7nvPkOW+e87wAj/C/BVqLkJf7vmBwcMCdZVj7DVyu5SJNTzvY24+drqocQgjR6xYuKT4hVCgUbxsMhlCWZbfSJpMlACAOh2PicDhTJIf8QSQSf/phWWnDSveJ1YRdhW6b5ufn0ubm5jwNBoOViaaRiabBSFFc/dyc8+ysPuZ2W9ulhF3xpWs6rq6scjFSRtMhuXzS+ylvl5MlJcNf1JzbkJC4B7Z5ecJjlpYwoVJBc0MjtN1qBb1eDwSBQOAqKK+tv/jO30ez7HhyapJfX1d3tbmpuQxjTPTf7VcNDA69djQv9+78ApVVUFDw9Csv7nRt7/g2Kiwy4kJeYb7By9sbGIYFjUbzVkpycuyKT4/e+XKN2McXBwU+S6fK9iWtNa7yj0+Ftn/X2R8fF4fF231wXHSM8tznNZYPXEqVyVJn7s8kI4RgYWGBo1ZPlBUVFLr+xWFXEpYfPNR649r1mESpdBoRBIyOjQlHx0aDloXfzc7eplZrPlhcNHEQQoAQgump6U29vT99olZryH+LYmF+vlI1rspzd3cHzLKgHFamLJ2RQjdhxdTkZABBEGBmGCBJAnh8Pui02ifU6glVe0fHjyvmOyfH2V/iv5lhWERR1O57Gg3HcaOjTVhIWL2nh8dmTsBzgTa7kxLhTk8Pvlx/CdnZ2YM0Zd+ig6MD+X1X99bV3FrxeKFtbbeLEEGQDE1bIIKA35S/CkaJ31v4NvxpwsbW9hTDMi/ZOzh0AQAwZjPWaDQVVjxe5JOeHldWE15kzDNBIcEOs1qtq8FoJBFCYKQoklqg3HaEhDotE2vr6o5IRGIsEYlx+v79X2GMybW+e7Oi5XxSwh7s5yvCEpEY+/mKcGZGBtt4szl3mRQaHiY8LJdj8XYf/EJEpP6wXC55iK6xvN7QMBYRFo7FPr44JioKd3Z3dQIAsZzRVsWtkeDnw3useTyYmZ7i/9zb92XV6QrfNYQppXJYGhu/a5FnbQ3pWVn3jx8vlv4joiWlHwWeOXvW/IzYD/v5inCAxF+XIk3Onxif2LLEwRjbv56Smn00Ozt6KbJXvrla3NDUxFZUV8es2BU7goOJ93Jzjgz9MnDy6/MXwEhRgDEGkiSw7eO2k4AA62f1TjRNk3wbG+MbBzI8k2Wy0bxjx5wcnRzFfX29Nz+rrDavVpvcJkVL0axWe7Dx2g3uiFIJOp0OWIb50wlBAI/HA6eNToyrQJBRVl5+Zl19XHuxTiYUCg+Mq8ZFszqdlU6nA8AYeHw+2NrZmZxdXEa6u7qy38zMvLzuDRId+6ptWlq62IJr4cW1sNiCAUiGYe6ZafNAZ0fHnaLCQvV/XmFJe/eSstRUzsOss0d4AH8Al6blV+kJPuQAAAAASUVORK5CYII=" />
-        <span class="sf-toolbar-status{% if collector.unstablePackageCount %} sf-toolbar-status-red{% endif %}">{{ collector.unstablePackageCount }}</span>
+        <span class="sf-toolbar-status sf-toolbar-status-{{ collector.days > 7 ? (collector.days > 14 ? 'red': 'yellow') : 'gray' }}">{{ collector.days }}</span>
+        <span class="sf-toolbar-info-piece-additional-detail">days ago</span>
     {% endset %}
     {% set text %}
         <div class="sf-toolbar-info-piece">
@@ -12,7 +13,11 @@
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Unstable packages</b>
-            <span class="sf-toolbar-status sf-toolbar-status-{{ collector.unstablePackageCount > 0 ? 'red' : 'green' }}">{{ collector.unstablePackageCount }}</span>
+            <span>{{ collector.unstablePackageCount }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Days since update</b>
+            <span class="sf-toolbar-status sf-toolbar-status-{{ collector.days > 7 ? (collector.days > 14 ? 'red': 'yellow') : 'green' }}">{{ collector.days }}</span>
         </div>
     {% endset %}
     {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
@@ -24,10 +29,16 @@
       <img width="39" height="30" alt="Update" src="data:image/png;base64,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" />
     </span>
     <strong>UPDATE</strong>
+    <span class="count">
+        <span>{{ collector.days }}</span>
+    </span>
 </span>
 {% endblock %}
 
 {% block panel %}
+    <h2>Last Update</h2>
+    <p>On {{ collector.lastUpdate|date('Y-m-d \\a\\t H:i:s') }} ({{ collector.days }} days ago)</p>
+
     <h2>Packages</h2>
 
     <table class="routing">

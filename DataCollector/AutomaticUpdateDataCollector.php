@@ -34,6 +34,7 @@ class AutomaticUpdateDataCollector extends DataCollector
         $installed = json_decode(file_get_contents($rootDir.'/composer.lock'));
         $require = json_decode(file_get_contents($rootDir.'/composer.json'));
         $require = (array)$require->require;
+        $lastUpdate = filemtime($rootDir.'/app/SymfonyRequirements.php');
         $packages = array();
         $packageCount=0;
         $unstablePackageCount=0;
@@ -50,7 +51,7 @@ class AutomaticUpdateDataCollector extends DataCollector
             $packageCount++;
         }
 
-        $this->data = compact('packages','packageCount','unstablePackageCount');
+        $this->data = compact('lastUpdate','packages','packageCount','unstablePackageCount');
 
     }
 
@@ -58,6 +59,28 @@ class AutomaticUpdateDataCollector extends DataCollector
     {
 
     }
+
+    /**
+     * Method returns date of last update
+     *
+     * @return number
+     */
+    public function getLastUpdate()
+    {
+        return $this->data['lastUpdate'];
+    }
+
+
+    /**
+     * Method returns days since last update
+     *
+     * @return number
+     */
+    public function getDays()
+    {
+        return round((time()-$this->data['lastUpdate'])/86400);
+    }
+
 
     /**
      * Method returns amount of installed packages
