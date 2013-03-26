@@ -86,6 +86,9 @@ parameters:
             - "app/console doctrine:schema:update --force"
 ```
 
+NB: You might want to run 'apache2-mpm-itk' to enable your website to run as a normal user, not as 'www-data',
+because this will simplify file rights management.
+
 ## License
 
 This bundle is under the MIT license.
