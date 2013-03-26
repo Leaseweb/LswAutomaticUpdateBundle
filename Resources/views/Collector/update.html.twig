@@ -12,12 +12,12 @@
             <span>{{ collector.packageCount }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Unstable packages</b>
+            <b>Dev packages</b>
             <span>{{ collector.unstablePackageCount }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Days since update</b>
-            <span class="sf-toolbar-status sf-toolbar-status-{{ collector.days > 7 ? (collector.days > 14 ? 'red': 'yellow') : 'green' }}">{{ collector.days }}</span>
+            <b>Last update</b>
+            <span class="sf-toolbar-status sf-toolbar-status-{{ collector.days > 7 ? (collector.days > 14 ? 'red': 'yellow') : 'green' }}">{{ collector.days }}</span> days ago
         </div>
     {% endset %}
     {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
