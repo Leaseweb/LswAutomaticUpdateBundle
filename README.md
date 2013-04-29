@@ -18,7 +18,8 @@ Add LswAutomaticUpdateBundle in your composer.json:
 ```js
 {
     "require": {
-        "leaseweb/automatic-update-bundle": "1.0.*@dev"
+        "leaseweb/automatic-update-bundle": "*",
+        ...
     }
 }
 ```
