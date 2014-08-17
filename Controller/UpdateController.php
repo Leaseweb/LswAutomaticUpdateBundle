@@ -24,7 +24,7 @@ class UpdateController extends Controller
         $options = $this->container->getParameter('automatic_update.options');
         $commands = array();
         $secret = isset($_POST['secret'])?$_POST['secret']:false;
-        if ($secret == $options['secret']) {
+        if ($rightsecret = $secret == $options['secret']) {
             foreach ($options['execute_commands'] as $command) {
                 $object = $this->runCommand($path, $command);
                 $commands[] = $object;
@@ -33,13 +33,14 @@ class UpdateController extends Controller
                     break;
                 }
             }
+        } else {
+            $success = false;
         }
-        $user = posix_getpwuid(posix_geteuid());
-        $username = $user['name'];
-        $hostname = trim(file_get_contents('/etc/hostname'));
+        $username = exec('whoami');;
+        $hostname = trim(gethostname());
         return $this->render(
             'LswAutomaticUpdateBundle:Update:execute.html.twig',
-            compact('username', 'hostname', 'path', 'commands', 'success')
+            compact('username', 'hostname', 'path', 'commands', 'success', 'rightsecret')
         );
     }
 
@@ -55,7 +56,7 @@ class UpdateController extends Controller
         $options = $this->container->getParameter('automatic_update.options');
         $commands = array();
         $secret = isset($_POST['secret'])?$_POST['secret']:false;
-        if ($secret == $options['secret']) {
+        if ($rightsecret = $secret == $options['secret']) {
             foreach ($options['dry_run_commands'] as $command) {
                 $object = $this->runCommand($path, $command);
                 $commands[] = $object;
@@ -64,13 +65,14 @@ class UpdateController extends Controller
                     break;
                 }
             }
+        } else {
+            $success = false;
         }
-        $user = posix_getpwuid(posix_geteuid());
-        $username = $user['name'];
-        $hostname = trim(file_get_contents('/etc/hostname'));
+        $username = exec('whoami');;
+        $hostname = trim(gethostname());
         return $this->render(
             'LswAutomaticUpdateBundle:Update:dry_run.html.twig',
-            compact('username', 'hostname', 'path', 'commands', 'success', 'secret')
+            compact('username', 'hostname', 'path', 'commands', 'success', 'secret', 'rightsecret')
         );
     }
 
