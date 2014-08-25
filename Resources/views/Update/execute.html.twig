@@ -3,9 +3,13 @@
         <pre>
 <span style="background-color: {{ success?'#0a0':'#a00' }}; font-weight: bold; color:#fff;"> Automatic update / EXECUTE / {{ "now"|date("Y-m-d H:i:s") }} </span>
 
+{% if rightsecret %}
 {% for i, command in commands -%}
 {{ username }}@{{ hostname }}:{{ path }}$ {{ command.command }}
 {{ command.stdout|raw|ansi2html}}{{ command.stderr|raw|ansi2html}}
 {% endfor %}</pre>
+{% else %}
+    The secret you entered is incorrect.</pre>
+{% endif %}
     </body>
 </html>

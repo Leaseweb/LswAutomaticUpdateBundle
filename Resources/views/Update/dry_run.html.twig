@@ -3,6 +3,7 @@
         <pre>
 <span style="background-color: {{ success?'#0a0':'#a00' }}; font-weight: bold; color:#fff;"> Automatic update / DRY-RUN / {{ "now"|date("Y-m-d H:i:s") }} </span>
 
+{% if rightsecret %}
 {% for i, command in commands -%}
 {{ username }}@{{ hostname }}:{{ path }}$ {{ command.command }}
 {{ command.stdout|ansi2html}}{{ command.stderr|ansi2html}}
@@ -12,6 +13,9 @@
         <input type="hidden" name="secret" value="{{ secret }}"/>
         <input type="submit" value="Step 2 of 2: Execute" style="padding: 4px;"/>
     </form>
+{% endif %}
+{% else %}
+    The secret you entered is incorrect.</pre>
 {% endif %}
     </body>
 </html>
