@@ -34,7 +34,11 @@ class AutomaticUpdateDataCollector extends DataCollector
         $installed = json_decode(file_get_contents($rootDir.'/composer.lock'));
         $require = json_decode(file_get_contents($rootDir.'/composer.json'));
         $require = (array)$require->require;
-        $lastUpdate = filemtime($rootDir.'/app/SymfonyRequirements.php');
+        if (file_exists($rootDir.'/app/SymfonyRequirements.php')) {
+            $lastUpdate = filemtime($rootDir.'/app/SymfonyRequirements.php');
+        } elseif (file_exists($rootDir.'/var/SymfonyRequirements.php')) {
+            $lastUpdate = filemtime($rootDir.'/var/SymfonyRequirements.php');
+        }
         $packages = array();
         $packageCount=0;
         $unstablePackageCount=0;
